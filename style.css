@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+}
+.top-block {
+    background-color: #4d636f;
+    color: #ffffff;
+}
+.top-block a {
+    color: #ffffff;
+    padding: 12px 24px;
+    display: inline-block;
+    text-decoration: none;
+}
+.top-block a:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.top-block a:first-child {
+    background-color: #3a4b53;
+}
+.top-block a:first-child:hover,
+.top-block .count-link:hover {
+    background-color: #cccccc;
+    color: #000000;
+}
+.top-block .avatar-link {
+    float: right;
+}
+.top-block .dropdown-hover {
+    display: inline-block;
+    position: relative;
+}
+.top-block .count-link {
+    position: relative;
+}
+.top-block .count-link span {
+    position: absolute;
+    top: 6px;
+    padding: 0px 8px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    font-size: 12px;
+}
+.top-block .dropdown-conten {
+    display: none;
+    position: absolute;
+    top: 42px;
+    width: 300px;
+    /* border: solid 1px red; */
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.top-block .dropdown-conten a {
+    background-color: #ffffff;
+    color: #000000;
+    display: block;
+}
+.top-block .dropdown-conten a:hover {
+    background-color: #cccccc;
+}
+.top-block .dropdown-conten .avatar-link {
+    float: none;
+    display: block;
+}
+.top-block .dropdown-hover:hover .dropdown-conten {
+    display: block;
+} 
+.top-block img {
+    border-radius: 50%;
+}
+.top-block .icon {
+    display: none;
+} 
+.navDemo {
+    display: none;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .top-block a,
+    .top-block .dropdown-hover {
+        display: none;
+    }
+    .top-block .icon,
+    .top-block a:first-child {
+        display: inline-block;
+    }
+    .top-block .icon {
+        float: right;
+    }
+    .top-block .responsive .navDemo,
+    .top-block .responsive .navDemo a {
+        display: block;
+    }
+    .top-block .responsive .navDemo a:first-child {
+        background-color: #4d636f;
+    }
+    .top-block .responsive .navDemo a:first-child:hover {
+        color: #000000;
+        background-color: #ffffff;
+    }
+}
