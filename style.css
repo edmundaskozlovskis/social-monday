@@ -76,7 +76,7 @@ body {
     display: none;
 }
 .container {
-    max-width: 1224px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 12px;
 }
@@ -219,6 +219,7 @@ body {
   }
 #alert-box {
     position: relative;
+    background-color: #dfe5e8;
 }
 #alert-box span {
     position: absolute;
@@ -229,7 +230,66 @@ body {
     background-color: #becbd2;
     cursor: pointer;
 }
-
+.content-editable-box h6 {
+  opacity: 0.6;
+  font-weight: 400;
+  font-size: 16px;
+  margin: 10px 0;
+}
+.content-editable-box p {
+  border: solid 1px #cccccc;
+  padding: 8px 16px;
+}
+.middle-column button {
+  color: #ffffff;
+  background-color: #607d8b;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+.middle-column button:hover {
+  color: #000000;
+  background-color: #cccccc;
+}
+.avatar-img {
+  border-radius: 50%;
+}
+.middle-column .post-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.middle-column .post-top div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.middle-column .two-img-block {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.middle-column .two-img-block img,
+.middle-column .one-img-block img {
+  width: 100%;
+}
+.last-column {
+  text-align: center;
+}
+.upcoming-events button {
+  border: none;
+  background-color: #dfe5e8;
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.upcoming-events button:hover {
+  background-color: #cccccc;
+}
 .footer {
     color: #ffffff;
     background-color: #435761;
