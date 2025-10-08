@@ -31,3 +31,19 @@ function hideAlertBlock() {
   var x = document.getElementById("alert-box");
     x.style.display = "none";
 }
+
+fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/posts/')
+    .then(response => {
+        if (!response.ok) { // Patikriname HTTP klaidas, pvz., 404
+            throw new Error(`HTTP klaida! statusas: ${response.status}`);
+        }
+        return response.json(); // Konvertuoja atsakymą į JSON formatą
+    })
+    .then(data => {
+        // console.log(data[0].content.rendered); // Naudojame gautus duomenis
+        document.getElementById('post-1-content').innerHTML = data[0].content.rendered
+        document.getElementById('post-2-content').innerHTML = data[1].content.rendered
+    })
+    .catch(error => {
+        console.error('Klaida gaunant duomenis:', error); // Tvarkome tinklo klaidas
+    });
