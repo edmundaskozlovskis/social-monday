@@ -32,7 +32,7 @@ function hideAlertBlock() {
     x.style.display = "none";
 }
 
-fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/posts/')
+fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/posts?_embed')
     .then(response => {
         if (!response.ok) { // Patikriname HTTP klaidas, pvz., 404
             throw new Error(`HTTP klaida! statusas: ${response.status}`);
@@ -40,9 +40,40 @@ fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/posts/')
         return response.json(); // Konvertuoja atsakymą į JSON formatą
     })
     .then(data => {
-        // console.log(data[0].content.rendered); // Naudojame gautus duomenis
-        document.getElementById('post-1-content').innerHTML = data[0].content.rendered
-        document.getElementById('post-2-content').innerHTML = data[1].content.rendered
+        // console.log(data[0].excerpt.rendered); // Naudojame gautus duomenis
+        // document.getElementById('post-1-content').innerHTML = data[0].excerpt.rendered
+
+        let len = data.length
+        
+        let text = "";
+        for (let i = 0; i < len; i++) {
+            // text += '<h2>' + data[i].title.rendered + "</h2><br>" + '<div>' + data[i].excerpt.rendered + '</div><hr>';
+            text += `<div class="card-container">
+                        <br>
+                        <div class="post-top">
+                            <div>
+                                <img class="avatar-img" width="60" height="60" src="https://www.w3schools.com/w3images/avatar2.png" alt="Avatar image">
+                                <h4>John Doe</h4>
+                            </div>
+                            <span>1 min</span>
+                        </div>
+                        <br>
+                        <hr>
+                        <div id="post-1-content"></div>
+                        <h4>${data[i].title.rendered}</h4>
+                        <div class="one-img-block">
+                            <div>
+                                <img src="${data[i]._embedded['wp:featuredmedia'][0]} ? ${data[i]._embedded['wp:featuredmedia'][0].source_url}:''">
+                            </div>
+                        </div>
+                        ${data[i].excerpt.rendered}
+                        <button><i class="fa fa-thumbs-up"></i> Like</button>
+                        <button><i class="fa fa-comment"></i> Comments</button>
+                    </div>`  
+        }
+        //  console.log();
+        // console.log(text);
+        document.getElementById('demo').innerHTML = text
     })
     .catch(error => {
         console.error('Klaida gaunant duomenis:', error); // Tvarkome tinklo klaidas
