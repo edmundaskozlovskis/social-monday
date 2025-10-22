@@ -32,6 +32,45 @@ function hideAlertBlock() {
     x.style.display = "none";
 }
 
+
+
+fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/users')
+    .then(response => {
+        if (!response.ok) { // Patikriname HTTP klaidas, pvz., 404
+            throw new Error(`HTTP klaida! statusas: ${response.status}`);
+        }
+        return response.json(); // Konvertuoja atsakymą į JSON formatą
+    })
+    .then(data => {
+        let profileText = "";
+      let textDescript = data[0].description
+      let splitText = textDescript.split("*")
+      // console.log(splitText)
+            profileText = `<div class="card-container">
+                           <h4>My profile</h4>
+                           <img width="106" height="106" src="${data[0].simple_local_avatar[128]}" alt="Profile image">
+                           <hr>
+                           <p>
+                               <i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>
+                               ${splitText[0]}
+                           </p>
+                           <p>
+                               <i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>
+                               ${splitText[1]}
+                           </p>
+                           <p>
+                               <i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>
+                               ${splitText[2]}
+                           </p>
+                       </div>`  
+          
+        document.getElementById('profile').innerHTML = profileText
+    })
+    .catch(error => {
+        console.error('Klaida gaunant duomenis:', error); // Tvarkome tinklo klaidas
+    });
+
+
 fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/posts?_embed')
     .then(response => {
         if (!response.ok) { // Patikriname HTTP klaidas, pvz., 404
@@ -40,39 +79,37 @@ fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/posts?_embed')
         return response.json(); // Konvertuoja atsakymą į JSON formatą
     })
     .then(data => {
-        // console.log(data[0].excerpt.rendered); // Naudojame gautus duomenis
-        // document.getElementById('post-1-content').innerHTML = data[0].excerpt.rendered
-
         let len = data.length
-        
+
         let text = "";
         for (let i = 0; i < len; i++) {
+          let postDate = data[i].date
+          let postDateYear = postDate.split("T")
+          // console.log(postDateYear[0])
             // text += '<h2>' + data[i].title.rendered + "</h2><br>" + '<div>' + data[i].excerpt.rendered + '</div><hr>';
             text += `<div class="card-container">
                         <br>
                         <div class="post-top">
                             <div>
-                                <img class="avatar-img" width="60" height="60" src="https://www.w3schools.com/w3images/avatar2.png" alt="Avatar image">
-                                <h4>John Doe</h4>
+                                <img class="avatar-img" width="60" height="60" src="${data[i]._embedded['author'][0].simple_local_avatar[64]}" alt="Avatar image">
+                                <h4>${data[i]._embedded['author'][0].name}</h4>
                             </div>
-                            <span>1 min</span>
+                            <span>${postDateYear[0]}</span>
                         </div>
                         <br>
                         <hr>
                         <div id="post-1-content"></div>
-                        <h4>${data[i].title.rendered}</h4>
+                        <h3>${data[i].title.rendered}</h3>
                         <div class="one-img-block">
                             <div>
-                                <img src="${data[i]._embedded['wp:featuredmedia'][0]} ? ${data[i]._embedded['wp:featuredmedia'][0].source_url}:''">
+                                <img alt="${data[i]._embedded['wp:featuredmedia'] ? data[i]._embedded['wp:featuredmedia'][0].title.rendered : '' }" src="${data[i]._embedded['wp:featuredmedia'] ? data[i]._embedded['wp:featuredmedia'][0].source_url : ''}">
                             </div>
                         </div>
                         ${data[i].excerpt.rendered}
                         <button><i class="fa fa-thumbs-up"></i> Like</button>
                         <button><i class="fa fa-comment"></i> Comments</button>
                     </div>`  
-        }
-        //  console.log();
-        // console.log(text);
+          }
         document.getElementById('demo').innerHTML = text
     })
     .catch(error => {
