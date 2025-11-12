@@ -42,9 +42,11 @@ fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/users')
     })
     .then(data => {
         let profileText = "";
-      let textDescript = data[0].description
-      let splitText = textDescript.split("*")
-            profileText = `<div class="card-container">
+        let topAvatart = ''
+        let textDescript = data[0].description
+        let splitText = textDescript.split("*")
+        
+        profileText = `<div class="card-container">
                            <h4>My profile</h4>
                            <img width="106" height="106" src="${data[0].simple_local_avatar[128]}" alt="Profile image">
                            <hr>
@@ -63,6 +65,10 @@ fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/users')
                        </div>`  
           
         document.getElementById('profile').innerHTML = profileText
+
+        topAvatart = `<img width="23" height="23" src="${data[0].simple_local_avatar[128]}" alt="Avataro paveiksliukas">`
+
+        document.getElementById('top-avatar').innerHTML = topAvatart
     })
     .catch(error => {
         console.error('Klaida gaunant duomenis:', error); // Tvarkome tinklo klaidas
@@ -165,23 +171,40 @@ fetch('http://javascript-pirma-pamoka.local/wp-json/wp/v2/event?_embed')
     });
 
 
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+    let lat = position.coords.latitude 
+    let lon = position.coords.longitude
+
+    fetch('https://api.openweathermap.org/data/2.5/weather?lat='+ lat + '&lon=' + lon +'&appid=984cf4449f9bcbfb1c23f16997544f79&units=metric')
+        .then(response => {
+            if (!response.ok) { // Patikriname HTTP klaidas, pvz., 404
+                throw new Error(`HTTP klaida! statusas: ${response.status}`);
+            }
+            return response.json(); // Konvertuoja atsakymą į JSON formatą
+        })
+        .then(data => {
+            let weatherInfo = "";
+            let temp = data.main.temp
+            weatherInfo = `<img src="images/${data.weather[0].icon}.png" alt="${data.weather[0].main} image">
+                        <p>${data.sys.country}, ${data.name}</p>
+                        <p>${temp.toFixed()} °C</p>`  
+            
+            document.getElementById('weather').innerHTML = weatherInfo
+        })
+        .catch(error => {
+            console.error('Klaida gaunant duomenis:', error); // Tvarkome tinklo klaidas
+        });
+
+}
+
+getLocation()
 
 
-fetch('https://api.openweathermap.org/data/2.5/weather?q=alytus&appid=984cf4449f9bcbfb1c23f16997544f79&units=metric')
-    .then(response => {
-        if (!response.ok) { // Patikriname HTTP klaidas, pvz., 404
-            throw new Error(`HTTP klaida! statusas: ${response.status}`);
-        }
-        return response.json(); // Konvertuoja atsakymą į JSON formatą
-    })
-    .then(data => {
-
-        console.log(data.weather[0].icon)
-        let weatherInfo = "";
-            weatherInfo = `<img src="/images/${data.weather[0].icon}.png">`  
-          
-        document.getElementById('weather').innerHTML = weatherInfo
-    })
-    .catch(error => {
-        console.error('Klaida gaunant duomenis:', error); // Tvarkome tinklo klaidas
-    });
